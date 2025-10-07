@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import logo from "@/assets/goomye-logo.png";
 
 const Navbar = () => {
   return (
@@ -33,9 +34,11 @@ const Navbar = () => {
           <div className="flex items-center justify-between gap-8">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary text-primary-foreground font-bold text-lg">
-                GOOMYE
-              </div>
+              <img 
+                src={logo} 
+                alt="GOOMYE Logo" 
+                className="h-16 w-16 object-contain"
+              />
             </div>
 
             {/* Search Bar */}
