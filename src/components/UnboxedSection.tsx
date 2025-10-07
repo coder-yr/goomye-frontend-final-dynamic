@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import unboxedImage from "@/assets/apple-watch-unboxed.jpg";
 
 const UnboxedSection = () => {
   const articles = [
@@ -9,8 +10,8 @@ const UnboxedSection = () => {
       subtitle: "BY cromā",
       title: "Ten years on the wrist, and the Apple Watch has gone from a glorified accessory to a necessity",
       description: "10 years of the iconic Apple Watch",
-      image: "/placeholder.svg",
-      alt: "Apple Watch collection"
+      image: unboxedImage,
+      alt: "Apple Watch collection with different bands"
     }
   ];
 

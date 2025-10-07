@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import bannerImage from "@/assets/cmf-phone-banner.jpg";
+import bannerImage from "@/assets/cmf-phone.png";
 
 const PromotionalBanner = () => {
   return (
