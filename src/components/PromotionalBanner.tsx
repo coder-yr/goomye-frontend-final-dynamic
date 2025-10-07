@@ -30,7 +30,7 @@ const PromotionalBanner = () => {
             </div>
             <div className="hidden md:block h-full">
               <img
-                src={bannerImage}
+                src={"/nothing-1.jpg"}
                 alt="CMF Phone 2 Pro in multiple colors"
                 className="w-full h-full object-cover"
               />

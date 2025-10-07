@@ -8,7 +8,7 @@ const BrandedProducts = () => {
       logo: "LG Life's Good",
       title: "Soundbars",
       price: "6,490",
-      image: "/placeholder.svg",
+      image: "/soundbar.jpg",
       alt: "LG Soundbar"
     },
     {
@@ -16,14 +16,14 @@ const BrandedProducts = () => {
       brand: "PHILIPS Crompton",
       title: "Irons & Garment Steamers",
       price: "499",
-      image: "/placeholder.svg",
+      image: "/iron.jpg",
       alt: "Philips Garment Steamer"
     },
     {
       id: 3,
       title: "Android Tablets",
       price: "11,749",
-      image: "/placeholder.svg",
+      image: "/Tab.jpg",
       alt: "Android Tablet"
     },
     {
@@ -32,7 +32,7 @@ const BrandedProducts = () => {
       title: "Galaxy Fit3",
       subtitle: "Smartwatches",
       price: "2,799",
-      image: "/placeholder.svg",
+      image: "/watch.jpg",
       alt: "Samsung Galaxy Fit3 Smartwatch"
     }
   ];

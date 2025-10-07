@@ -5,7 +5,7 @@ const SummerDeals = () => {
   const products = [
     {
       id: 1,
-      image: "/placeholder.svg",
+  image: "/air-cooler.jpg",
       title: "Croma 60 Litres Desert Air Cooler with Water Level Indicator",
       price: 7999,
       originalPrice: 14500,
@@ -14,7 +14,7 @@ const SummerDeals = () => {
     },
     {
       id: 2,
-      image: "/placeholder.svg",
+      image: "/ac.jpg",
       title: "Croma 7 in 1 Convertible 1 Ton 3 Star Inverter Split AC with Copper Condenser",
       price: 28990,
       originalPrice: 37000,
@@ -23,7 +23,7 @@ const SummerDeals = () => {
     },
     {
       id: 3,
-      image: "/placeholder.svg",
+      image: "/ac-2.jpg",
       title: "Croma 7 in 1 Convertible 1.5 Ton 3 Star Inverter Split AC with Copper Condenser",
       price: 30990,
       originalPrice: 42000,
@@ -32,7 +32,7 @@ const SummerDeals = () => {
     },
     {
       id: 4,
-      image: "/placeholder.svg",
+      image: "/air-cooler-2.jpg",
       title: "Croma 40 Litres Personal Air Cooler with Inverter Compatible",
       price: 5999,
       originalPrice: 11500,
@@ -41,7 +41,7 @@ const SummerDeals = () => {
     },
     {
       id: 5,
-      image: "/placeholder.svg",
+      image: "/air-cooler-3.jpg",
       title: "Croma 60 Litres Desert Air Cooler with Water Level Indicator",
       price: 7999,
       originalPrice: 14500,

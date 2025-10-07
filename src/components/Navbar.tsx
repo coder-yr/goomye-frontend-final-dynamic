@@ -4,8 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import logo from "@/assets/goomye-logo.png";
+import React, { useState } from "react";
+import MegaMenu from "./MegaMenu";
+// ...existing code...
 
 const Navbar = () => {
+  const [showMegaMenu, setShowMegaMenu] = useState(false);
+  // ...existing code...
   return (
     <header className="w-full border-b bg-background">
       {/* Top Bar */}
@@ -83,10 +88,22 @@ const Navbar = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <nav className="flex items-center gap-8">
-              <Button variant="ghost" className="gap-2 font-medium">
-                <Menu className="h-5 w-5" />
-                Shop by Category
-              </Button>
+                {/* Shop by Category with MegaMenu on hover */}
+                <div
+                  className="relative"
+                  onMouseEnter={() => setShowMegaMenu(true)}
+                  onMouseLeave={() => setShowMegaMenu(false)}
+                >
+                  <Button variant="ghost" className="gap-2 font-medium">
+                    <Menu className="h-5 w-5" />
+                    Shop by Category
+                  </Button>
+                  {showMegaMenu && (
+                    <div className="absolute left-0 top-full z-50">
+                      <MegaMenu />
+                    </div>
+                  )}
+                </div>
               <a href="/" className="text-sm font-medium hover:text-primary transition-colors">
                 Home
               </a>
