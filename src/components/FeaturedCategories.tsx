@@ -8,16 +8,17 @@ import smartphone from "@/assets/smartphone.jpg";
 import console from "@/assets/console.jpg";
 import smartwatch from "@/assets/smartwatch.jpg";
 import tabletGuide from "@/assets/tablet-guide.jpg";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
-const FeaturedCategories = () => {
-  const categories = [
-    {
-      id: 1,
-      title: "Enhance your study habits with iMac",
-      image: imac,
-      hasButton: false,
-      alt: "iMac desktop computer"
-    },
+const staticCategories = [
+  {
+    id: 1,
+    title: "Enhance your study habits with iMac",
+    image: imac,
+    hasButton: false,
+    alt: "iMac desktop computer"
+  },
     {
       id: 2,
       title: "Mind-blowing savings on gaming",
@@ -73,12 +74,34 @@ const FeaturedCategories = () => {
     }
   ];
 
+const FeaturedCategories: React.FC = () => {
+  const [categories, setCategories] = useState(staticCategories);
+
+  useEffect(() => {
+    api.getCollections()
+      .then((res) => {
+        if (res && res.collections && res.collections.length) {
+          setCategories(
+            res.collections.map((c: any, idx: number) => ({
+              id: c.id ?? idx,
+              title: c.title ?? c.brand,
+              image: c.image ?? "/placeholder.svg",
+              hasButton: !!c.hasButton,
+              buttonText: c.buttonText,
+              alt: c.alt ?? c.title,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="w-full py-16 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
-            <Card 
+            <Card
               key={category.id}
               className="overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-card"
             >
@@ -94,10 +117,7 @@ const FeaturedCategories = () => {
                   {category.title}
                 </h3>
                 {category.hasButton && (
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                  >
+                  <Button variant="outline" className="w-full">
                     {category.buttonText}
                   </Button>
                 )}

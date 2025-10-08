@@ -1,22 +1,27 @@
 import { Monitor, ShoppingBag, Tv, Headphones, MonitorSpeaker, Puzzle, Smile, Heart, Truck, BookOpen, Home, Camera, Clipboard, Sparkles } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
+
+const staticCategories = [
+  { name: "Computers", icon: Monitor, featured: false },
+  { name: "Fashion", icon: ShoppingBag, featured: false },
+  { name: "Electronics", icon: Tv, featured: false },
+  { name: "Gaming", icon: Headphones, featured: false },
+  { name: "TV/Projectors", icon: MonitorSpeaker, featured: false },
+  { name: "Toys", icon: Puzzle, featured: false },
+  { name: "Sport", icon: Smile, featured: true },
+  { name: "Health", icon: Heart, featured: false },
+  { name: "Auto", icon: Truck, featured: false },
+  { name: "Books", icon: BookOpen, featured: false },
+  { name: "Home", icon: Home, featured: false },
+  { name: "Photo/Video", icon: Camera, featured: false },
+  { name: "Collectibles", icon: Clipboard, featured: false },
+  { name: "Beauty", icon: Sparkles, featured: true },
+];
 
 const CategoriesSection = () => {
-  const categories = [
-    { name: "Computers", icon: Monitor, featured: false },
-    { name: "Fashion", icon: ShoppingBag, featured: false },
-    { name: "Electronics", icon: Tv, featured: false },
-    { name: "Gaming", icon: Headphones, featured: false },
-    { name: "TV/Projectors", icon: MonitorSpeaker, featured: false },
-    { name: "Toys", icon: Puzzle, featured: false },
-    { name: "Sport", icon: Smile, featured: true },
-    { name: "Health", icon: Heart, featured: false },
-    { name: "Auto", icon: Truck, featured: false },
-    { name: "Books", icon: BookOpen, featured: false },
-    { name: "Home", icon: Home, featured: false },
-    { name: "Photo/Video", icon: Camera, featured: false },
-    { name: "Collectibles", icon: Clipboard, featured: false },
-    { name: "Beauty", icon: Sparkles, featured: true },
-  ];
+  // Always use static categories for Top Categories section
+  const categories = staticCategories;
 
   return (
     <section className="w-full py-16 bg-background">
@@ -27,7 +32,7 @@ const CategoriesSection = () => {
             const Icon = category.icon;
             return (
               <button
-                key={category.name}
+                key={category.name + '-' + String(categories.indexOf(category))}
                 className="flex flex-col items-center gap-3 group"
               >
                 <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:scale-110">

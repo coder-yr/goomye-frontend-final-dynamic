@@ -1,24 +1,26 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import hero1 from "@/assets/hero-1.jpg";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
-const HeroCarousel = () => {
-  const slides = [
-    {
-      id: 1,
-      image: hero1,
-      alt: "Fashion collection hero image"
-    },
-    {
-      id: 2,
-      image: hero1,
-      alt: "Fashion collection hero image"
-    },
-    {
-      id: 3,
-      image: hero1,
-      alt: "Fashion collection hero image"
-    }
-  ];
+const staticSlides = [
+  { id: 1, image: hero1, alt: "Fashion collection hero image" },
+  { id: 2, image: hero1, alt: "Fashion collection hero image" },
+  { id: 3, image: hero1, alt: "Fashion collection hero image" },
+];
+
+const HeroCarousel: React.FC = () => {
+  const [slides, setSlides] = useState(staticSlides);
+
+  useEffect(() => {
+    api.getCarousel()
+      .then((res) => {
+        if (res && res.carousel && res.carousel.length) {
+          setSlides(res.carousel.map((s: any, idx: number) => ({ id: s.id ?? idx, image: s.image ?? "/hero-1.jpg", alt: s.alt })));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="w-full">

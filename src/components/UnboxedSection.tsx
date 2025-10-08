@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import unboxedImage from "@/assets/apple-watch-unboxed.jpg";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
-const UnboxedSection = () => {
-  const articles = [
+const UnboxedSection: React.FC = () => {
+  const [articles, setArticles] = useState([
     {
       id: 1,
       badge: "UNBOXED",
@@ -13,7 +15,17 @@ const UnboxedSection = () => {
       image: unboxedImage,
       alt: "Apple Watch collection with different bands"
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    api.getUnboxed()
+      .then((res) => {
+        if (res && res.unboxed && res.unboxed.length) {
+          setArticles(res.unboxed.map((a: any, idx: number) => ({ id: a.id ?? idx, badge: a.badge, subtitle: a.subtitle, title: a.title, description: a.description, image: a.image, alt: a.alt })));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="w-full py-16 bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800">

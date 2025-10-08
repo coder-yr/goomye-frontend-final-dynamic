@@ -3,9 +3,11 @@ import earbuds from "@/assets/earbuds.jpg";
 import smartTv from "@/assets/smart-tv.jpg";
 import laptop from "@/assets/laptop.jpg";
 import refrigerator from "@/assets/refrigerator.jpg";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
-const PromotionalCards = () => {
-  const promotions = [
+const PromotionalCards: React.FC = () => {
+  const [promotions, setPromotions] = useState([
     {
       id: 1,
       title: "Truly Wireless Earbuds",
@@ -39,7 +41,17 @@ const PromotionalCards = () => {
       showBrand: true,
       alt: "Refrigerator"
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    api.getDeals()
+      .then((res) => {
+        if (res && res.deals && res.deals.length) {
+          setPromotions(res.deals.map((d: any, idx: number) => ({ id: d.id ?? idx, title: d.title, image: d.image ?? "/placeholder.svg", offer: d.discount, isPercentage: !!d.discount, alt: d.alt })));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="w-full py-16 bg-background">

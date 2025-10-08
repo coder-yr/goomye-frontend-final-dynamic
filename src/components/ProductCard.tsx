@@ -19,6 +19,12 @@ const ProductCard = ({ image, title, price, originalPrice, rating, alt }: Produc
           src={image}
           alt={alt}
           className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== '/placeholder.svg') {
+              target.src = '/placeholder.svg';
+            }
+          }}
         />
         <Button
           size="icon"
