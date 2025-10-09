@@ -11,71 +11,8 @@ import tabletGuide from "@/assets/tablet-guide.jpg";
 import React, { useEffect, useState } from "react";
 import api from "@/lib/api";
 
-const staticCategories = [
-  {
-    id: 1,
-    title: "Enhance your study habits with iMac",
-    image: imac,
-    hasButton: false,
-    alt: "iMac desktop computer"
-  },
-    {
-      id: 2,
-      title: "Mind-blowing savings on gaming",
-      image: gamingController,
-      hasButton: false,
-      alt: "Gaming controller"
-    },
-    {
-      id: 3,
-      title: "Computer Peripherals for your upgrade",
-      image: peripherals,
-      hasButton: false,
-      alt: "Keyboard and mouse"
-    },
-    {
-      id: 4,
-      title: "Discover the best Echo devices",
-      image: tablet,
-      hasButton: false,
-      alt: "Echo tablet device"
-    },
-    {
-      id: 5,
-      title: "Trending gadgets to make it feel like home",
-      image: smartphone,
-      hasButton: true,
-      buttonText: "See more gaming",
-      alt: "Smartphone"
-    },
-    {
-      id: 6,
-      title: "Browse our Consoles range for best deals",
-      image: console,
-      hasButton: true,
-      buttonText: "Shop gadgets",
-      alt: "Gaming console"
-    },
-    {
-      id: 7,
-      title: "Watches you've never seen before",
-      image: smartwatch,
-      hasButton: true,
-      buttonText: "See more watches",
-      alt: "Smartwatch"
-    },
-    {
-      id: 8,
-      title: "Your guide to the top tablets on the market",
-      image: tabletGuide,
-      hasButton: true,
-      buttonText: "See tablets deals",
-      alt: "Tablet device"
-    }
-  ];
-
 const FeaturedCategories: React.FC = () => {
-  const [categories, setCategories] = useState(staticCategories);
+  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
     api.getCollections()

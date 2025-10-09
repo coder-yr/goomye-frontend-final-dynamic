@@ -7,47 +7,30 @@ import React, { useEffect, useState } from "react";
 import api from "@/lib/api";
 
 const PromotionalCards: React.FC = () => {
-  const [promotions, setPromotions] = useState([
-    {
-      id: 1,
-      title: "Truly Wireless Earbuds",
-      image: earbuds,
-      offer: "Up to 60% Off",
-      isPercentage: true,
-      alt: "Wireless earbuds"
-    },
-    {
-      id: 2,
-      title: '55" & Above Smart TVs',
-      image: smartTv,
-      price: "25,499",
-      subtitle: "*Inclusive of all Offers",
-      alt: "Smart TV"
-    },
-    {
-      id: 3,
-      title: "Windows Laptops",
-      image: laptop,
-      price: "26,990",
-      subtitle: "*Inclusive of all Offers",
-      alt: "Windows laptop"
-    },
-    {
-      id: 4,
-      title: "Refrigerators",
-      image: refrigerator,
-      price: "7,990",
-      subtitle: "*Easy EMI Offers",
-      showBrand: true,
-      alt: "Refrigerator"
-    }
-  ]);
+  const [promotions, setPromotions] = useState<any[]>([]);
 
   useEffect(() => {
     api.getDeals()
       .then((res) => {
         if (res && res.deals && res.deals.length) {
-          setPromotions(res.deals.map((d: any, idx: number) => ({ id: d.id ?? idx, title: d.title, image: d.image ?? "/placeholder.svg", offer: d.discount, isPercentage: !!d.discount, alt: d.alt })));
+          // Map known product titles to public folder images
+          const imageMap: Record<string, string> = {
+            "Apple iMac 27”": "/apple-imac-27.jpg",
+            "PlayStation 5 Slim Console": "/ps5.jpg",
+            "iPad Pro 13-inch (M4): XDR Display": "/ipad-pro.jpg",
+            "Xbox Series S 1TB SSD": "/xbox-series-s.jpg",
+            "Apple iPhone 15 Pro Max": "/iphone-15.jpg"
+          };
+          setPromotions(res.deals.map((d: any, idx: number) => ({
+            id: d.id ?? idx,
+            title: d.title,
+            image: d.image || imageMap[d.title] || "/placeholder.svg",
+            price: d.price,
+            subtitle: d.subtitle,
+            offer: d.discount,
+            isPercentage: !!d.discount,
+            alt: d.alt
+          })));
         }
       })
       .catch(() => {});
@@ -72,11 +55,11 @@ const PromotionalCards: React.FC = () => {
                   {promo.title}
                 </h3>
                 <div className="aspect-square bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-lg overflow-hidden flex items-center justify-center p-4">
-                  <img
-                    src={promo.image}
-                    alt={promo.alt}
-                    className="w-full h-full object-contain"
-                  />
+                    <img
+                      src={`/images/${Array.isArray(promo.image) ? promo.image[0] : promo.image}`}
+                      alt={promo.alt}
+                      className="w-full h-full object-contain"
+                    />
                 </div>
                 <div className="space-y-1">
                   {promo.isPercentage ? (

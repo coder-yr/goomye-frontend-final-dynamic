@@ -28,8 +28,14 @@ const MegaMenu: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-full bg-gray-50 text-gray-900 font-[Inter]">
-      {/* ===== Left Sidebar Categories ===== */}
+    <div
+      className="relative w-full bg-gray-50 text-gray-900 font-[Inter]"
+      onMouseLeave={() => {
+        setActiveMain(null);
+        setActiveSub(null);
+      }}
+    >
+      {/* ===== Mega Menu Content: Sidebar + Panel ===== */}
       <div className="flex">
         <div className="w-64 bg-white border-r">
           <ul className="flex flex-col">
@@ -48,7 +54,6 @@ const MegaMenu: React.FC = () => {
                     setActiveMain(main);
                     setActiveSub(null);
                   }}
-                  onMouseLeave={() => setActiveMain(null)}
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-gray-700 font-medium">{main}</span>
@@ -65,12 +70,7 @@ const MegaMenu: React.FC = () => {
         {/* ===== Mega Menu Panel (Right Side) ===== */}
         {activeMain && (
           <div
-            className="absolute left-64 top-0 w-[900px] bg-white shadow-lg border rounded-r-xl grid grid-cols-3 p-8 gap-6 z-50"
-            onMouseEnter={() => setActiveMain(activeMain)}
-            onMouseLeave={() => {
-              setActiveMain(null);
-              setActiveSub(null);
-            }}
+            className="w-[900px] bg-white shadow-lg border rounded-r-xl grid grid-cols-3 p-8 gap-6 z-50"
           >
             {/* ==== Column 1: Subcategories ==== */}
             <div className="border-r pr-6">

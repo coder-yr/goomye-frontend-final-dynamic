@@ -1,50 +1,94 @@
-import { Monitor, ShoppingBag, Tv, Headphones, MonitorSpeaker, Puzzle, Smile, Heart, Truck, BookOpen, Home, Camera, Clipboard, Sparkles } from "lucide-react";
+
+
 import React, { useEffect, useState } from "react";
 import api from "@/lib/api";
-
-const staticCategories = [
-  { name: "Computers", icon: Monitor, featured: false },
-  { name: "Fashion", icon: ShoppingBag, featured: false },
-  { name: "Electronics", icon: Tv, featured: false },
-  { name: "Gaming", icon: Headphones, featured: false },
-  { name: "TV/Projectors", icon: MonitorSpeaker, featured: false },
-  { name: "Toys", icon: Puzzle, featured: false },
-  { name: "Sport", icon: Smile, featured: true },
-  { name: "Health", icon: Heart, featured: false },
-  { name: "Auto", icon: Truck, featured: false },
-  { name: "Books", icon: BookOpen, featured: false },
-  { name: "Home", icon: Home, featured: false },
-  { name: "Photo/Video", icon: Camera, featured: false },
-  { name: "Collectibles", icon: Clipboard, featured: false },
-  { name: "Beauty", icon: Sparkles, featured: true },
-];
+import {
+  Monitor,
+  ShoppingBag,
+  Tv,
+  Gamepad2,
+  BadgePercent,
+  ToyBrick,
+  Heart,
+  Truck,
+  BookOpen,
+  Home,
+  Camera,
+  Clipboard,
+  Sparkles,
+  Smile,
+  Eye,
+  Smartphone
+} from "lucide-react";
 
 const CategoriesSection = () => {
-  // Always use static categories for Top Categories section
-  const categories = staticCategories;
+  const [categories, setCategories] = useState<any[]>([]);
+  useEffect(() => {
+    api.getCategories()
+      .then((res) => {
+        console.log('Categories API response:', res);
+        // Try to handle both array and object with categories property
+        if (Array.isArray(res)) {
+          setCategories(res);
+        } else if (res && Array.isArray(res.categories)) {
+          setCategories(res.categories);
+        }
+      })
+      .catch((err) => {
+        console.error('Categories API error:', err);
+      });
+  }, []);
+
+  const iconMap: Record<string, React.ElementType> = {
+    "Computers": Monitor,
+    "Fashion": ShoppingBag,
+    "Electronics": Tv,
+    "Gaming": Gamepad2,
+    "TV/Projectors": Tv,
+    "Toys": ToyBrick,
+    "Sport": Smile,
+    "Health": Heart,
+    "Auto": Truck,
+    "Books": BookOpen,
+    "Home": Home,
+    "Photo/Video": Camera,
+    "Collectibles": Clipboard,
+    "Beauty": Sparkles
+  };
+
+  const allowedCategories = Object.keys(iconMap);
+
+  const filteredCategories = categories.filter(cat =>
+    allowedCategories.includes(cat.name)
+  );
 
   return (
     <section className="w-full py-16 bg-background">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12">Top categories</h2>
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-8">
-          {categories.map((category) => {
-            const Icon = category.icon;
-            return (
+        {filteredCategories.length === 0 ? (
+          <div className="text-muted-foreground text-center py-8">No categories available.</div>
+        ) : (
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-8">
+            {filteredCategories.map((category, idx) => (
               <button
-                key={category.name + '-' + String(categories.indexOf(category))}
+                key={category.id ?? category.name ?? idx}
                 className="flex flex-col items-center gap-3 group"
               >
                 <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:scale-110">
-                  <Icon className={`h-8 w-8 ${category.featured ? 'text-primary' : 'text-primary/70'}`} />
+                  {iconMap[category.name] ? (
+                    React.createElement(iconMap[category.name], { className: "h-8 w-8 text-primary" })
+                  ) : (
+                    <span className="h-8 w-8 bg-muted rounded-full" />
+                  )}
                 </div>
                 <span className={`text-sm font-medium ${category.featured ? 'text-primary' : 'text-muted-foreground'}`}>
                   {category.name}
                 </span>
               </button>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

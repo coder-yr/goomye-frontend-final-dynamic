@@ -1,4 +1,7 @@
-const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8001/api";
+export async function getProduct(id: string) {
+  return safeJson(await fetch(`${BASE}/products/${id}`));
+}
+export const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8001/api";
 
 async function safeJson(res: Response) {
   if (!res.ok) {
@@ -48,4 +51,5 @@ export default {
   getUnboxed,
   getDeals,
   getProducts,
+  getProduct,
 };

@@ -64,19 +64,43 @@ const TrendingDeals = () => {
     api.getDeals()
       .then((res) => {
         // Expecting res.deals or an array
-        const data = res && (res.deals ?? res) ;
+        const data = res && (res.deals ?? res);
         if (!mounted) return;
         if (Array.isArray(data) && data.length > 0) {
           // Map backend deal objects to the ProductCard props shape if needed
-          const mapped = data.map((d: any, idx: number) => ({
-            id: d.id ?? `deal-${idx}`,
-            image: d.image ?? staticProducts[idx % staticProducts.length].image,
-            title: d.title ?? d.name ?? staticProducts[idx % staticProducts.length].title,
-            price: d.price ?? d.dealPrice ?? staticProducts[idx % staticProducts.length].price,
-            originalPrice: d.originalPrice ?? d.mrp ?? staticProducts[idx % staticProducts.length].originalPrice,
-            rating: d.rating ?? 4,
-            alt: d.alt ?? d.title ?? "Deal product",
-          }));
+          // Map product titles to public folder images
+          const imageMap: Record<string, string> = {
+            "PlayStation 5 Slim Console": "/ps5-slim-console.jpg",
+            "iPad Pro 13-inch (M4): XDR Display": "/ipad-pro.jpg",
+            "Xbox Series S 1TB SSD": "/xbox-series-s.jpg",
+            "Apple iPhone 15 Pro Max": "/iphone-15.jpg"
+          };
+          const mapped = data.map((d: any, idx: number) => {
+            let imageSrc = imageMap[d.title ?? d.name] || staticProducts[idx % staticProducts.length].image;
+            if (d.image) {
+              try {
+                // If d.image is a stringified array, parse and use first element
+                const arr = typeof d.image === 'string' ? JSON.parse(d.image) : d.image;
+                if (Array.isArray(arr) && arr.length > 0) {
+                  imageSrc = arr[0];
+                } else if (typeof arr === 'string') {
+                  imageSrc = arr;
+                }
+              } catch {
+                // fallback to original string if not JSON
+                imageSrc = d.image;
+              }
+            }
+            return {
+              id: d.id ?? `deal-${idx}`,
+              image: imageSrc,
+              title: d.title ?? d.name ?? staticProducts[idx % staticProducts.length].title,
+              price: d.price ?? d.dealPrice ?? staticProducts[idx % staticProducts.length].price,
+              originalPrice: d.originalPrice ?? d.mrp ?? staticProducts[idx % staticProducts.length].originalPrice,
+              rating: d.rating ?? 4,
+              alt: d.alt ?? d.title ?? "Deal product",
+            };
+          });
           setProducts(mapped as any);
         }
       })
