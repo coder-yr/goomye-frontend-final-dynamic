@@ -30,8 +30,18 @@ const statusConfig = {
 
 const ActiveOrders = () => {
   const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
-    getActiveOrders().then(data => setOrders(data.orders)).catch(console.error);
+    getActiveOrders()
+      .then(data => {
+        setOrders(data.orders || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError("Failed to load orders");
+        setLoading(false);
+      });
   }, []);
   return (
     <div className="bg-card rounded-lg border border-border p-6 space-y-6">
@@ -40,11 +50,14 @@ const ActiveOrders = () => {
         <Info className="h-4 w-4 text-muted-foreground" />
       </div>
       <div className="space-y-4">
-        {orders.map((order) => {
+        {loading && <div>Loading orders...</div>}
+        {error && <div className="text-red-500">{error}</div>}
+        {!loading && !error && orders.length === 0 && <div>No active orders found.</div>}
+        {!loading && !error && orders.map((order) => {
           const StatusIcon = statusConfig[order.status]?.icon || Info;
           return (
             <div
-              key={order.id}
+              key={order.id || order.orderId}
               className="flex flex-col md:flex-row md:items-center gap-4 p-4 rounded-lg border border-border"
             >
               <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">

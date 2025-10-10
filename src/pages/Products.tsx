@@ -3,6 +3,8 @@ import { FilterSidebar } from "@/components/FilterSidebar";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import api from "@/lib/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,64 +12,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const products = [
-  {
-    id: 1,
-    image: "/apple-imac-27.jpg",
-    title: "Apple iMac 27\"",
-    price: 1199,
-    originalPrice: 1399,
-    rating: 5,
-    alt: "Apple iMac 27\"",
-  },
-  {
-    id: 2,
-    image: "/playstation-5-slim.png",
-    title: "PlayStation 5 Slim Console",
-    price: 499,
-    originalPrice: 599,
-    rating: 4,
-    alt: "PlayStation 5 Slim Console",
-  },
-  {
-    id: 3,
-    image: "/ipad-pro-13.jpg",
-    title: "iPad Pro 13-inch (M4): XDR Display",
-    price: 1199,
-    originalPrice: 1299,
-    rating: 5,
-    alt: "iPad Pro 13-inch (M4): XDR Display",
-  },
-  {
-    id: 4,
-    image: "/xbox-series-s.jpg",
-    title: "Xbox Series S 1TB SSD",
-    price: 299,
-    originalPrice: 399,
-    rating: 4,
-    alt: "Xbox Series S 1TB SSD",
-  },
-  {
-    id: 5,
-    image: "/iphone-15-pro-max.png",
-    title: "Apple iPhone 15 Pro Max",
-    price: 1199,
-    originalPrice: 1299,
-    rating: 5,
-    alt: "Apple iPhone 15 Pro Max",
-  },
-  {
-    id: 6,
-    image: "/assets/apple-imac-27.jpg",
-    title: "iMac 24\" (2023)",
-    price: 1499,
-    originalPrice: 1699,
-    rating: 5,
-    alt: "iMac 24\" (2023)",
-  },
-];
+type SortKey = "price_asc" | "price_desc" | undefined;
 
 const Products = () => {
+  const [products, setProducts] = useState<any[]>([]);
+  const [sortKey, setSortKey] = useState<SortKey>(undefined);
+  const query = useMemo(() => {
+    const params = new URLSearchParams();
+    if (sortKey) params.set("sort", sortKey);
+    return params.toString();
+  }, [sortKey]);
+
+  useEffect(() => {
+    api.getProducts(query)
+      .then((res) => {
+        const list = res && (res.products ?? res);
+        if (Array.isArray(list)) setProducts(list);
+      })
+      .catch(() => {});
+  }, [query]);
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b">
@@ -97,8 +61,8 @@ const Products = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="bg-popover">
-                  <DropdownMenuItem>Price: Low to High</DropdownMenuItem>
-                  <DropdownMenuItem>Price: High to Low</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortKey("price_asc")}>Price: Low to High</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortKey("price_desc")}>Price: High to Low</DropdownMenuItem>
                   <DropdownMenuItem>Name: A to Z</DropdownMenuItem>
                   <DropdownMenuItem>Name: Z to A</DropdownMenuItem>
                   <DropdownMenuItem>Newest First</DropdownMenuItem>
@@ -110,8 +74,13 @@ const Products = () => {
               {products.map((product) => (
                 <Link key={product.id} to={`/products/${product.id}`}>
                   <ProductCard 
-                    {...product}
-                    image={product.image}
+                    id={product.id}
+                    image={Array.isArray(product.images) ? product.images[0] : product.image}
+                    title={product.title ?? product.name}
+                    price={product.price}
+                    originalPrice={product.originalPrice ?? product.mrp ?? product.price}
+                    rating={product.rating ?? 4}
+                    alt={product.alt ?? product.name}
                   />
                 </Link>
               ))}

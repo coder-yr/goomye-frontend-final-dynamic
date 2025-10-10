@@ -8,10 +8,22 @@ import { getProfile } from "@/lib/account";
 
 const AccountData = () => {
   const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
-    getProfile().then(setProfile).catch(console.error);
+    getProfile()
+      .then(data => {
+        setProfile(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError("Failed to load profile");
+        setLoading(false);
+      });
   }, []);
-  if (!profile) return null;
+  if (loading) return <div>Loading profile...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!profile) return <div>No profile data found.</div>;
   return (
     <div className="bg-card rounded-lg border border-border p-6 space-y-6">
       <h2 className="text-xl font-semibold text-foreground">Account data</h2>

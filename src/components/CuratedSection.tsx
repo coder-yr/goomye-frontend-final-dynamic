@@ -1,27 +1,40 @@
 import { Package, Truck, Tv, Tag, Percent, Crown } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import api from "@/lib/api";
 
 const CuratedSection = () => {
-  const categories = [
-    { id: 1, icon: Package, label: "Bundles" },
-    { id: 2, icon: Truck, label: "Fast Delivery" },
-    { id: 3, icon: Tv, label: "Electronics" },
-    { id: 4, icon: Tag, label: "Best Deals" },
-    { id: 5, icon: Percent, label: "Discounts" },
-    { id: 6, icon: Crown, label: "Premium" }
-  ];
+  const [items, setItems] = useState<any[]>([]);
+
+  const iconMap: Record<string, any> = useMemo(() => ({
+    Package,
+    Truck,
+    Tv,
+    Tag,
+    Percent,
+    Crown,
+  }), []);
+
+  useEffect(() => {
+    api.getContent("curated")
+      .then((res) => {
+        const data = res && (res.items ?? []);
+        if (Array.isArray(data)) setItems(data);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="w-full py-16 bg-background">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8">Exclusively Curated For You</h2>
         <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-          {categories.map((category) => {
-            const Icon = category.icon;
+          {items.map((item) => {
+            const Icon = iconMap[item.icon] || Package;
             return (
               <button
-                key={category.id}
+                key={item.id}
                 className="flex flex-col items-center justify-center w-20 h-20 bg-gray-900 hover:bg-gray-800 rounded-2xl transition-colors duration-300"
-                aria-label={category.label}
+                aria-label={item.label}
               >
                 <Icon className="h-8 w-8 text-white" />
               </button>

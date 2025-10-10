@@ -1,16 +1,35 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { Eye, EyeOff } from "lucide-react";
+import { BASE } from "@/lib/api";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt with:", { email, password });
+    try {
+      const res = await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        // TODO: redirect to account/dashboard page
+        window.location.href = "/account";
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (err) {
+      alert("Login error");
+    }
   };
 
   return (

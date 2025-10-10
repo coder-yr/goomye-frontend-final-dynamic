@@ -4,12 +4,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+
 import NotFound from "./pages/NotFound";
 import SignUpForm from "./app/signup/page";
 import Products from "./pages/Products";
 import ProductPage from "./pages/Product";
 import Account from "./pages/Account";
 import LoginPage from "./pages/login";
+import Wishlist from "./pages/Wishlist";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +29,7 @@ const App = () => (
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/account" element={<Account />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

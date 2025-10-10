@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
+import api from "@/lib/api";
 
 const MegaMenu: React.FC = () => {
   const [activeMain, setActiveMain] = useState<string | null>(null);
@@ -11,16 +12,13 @@ const MegaMenu: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8001/api/mega-menu")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch menu");
-        return res.json();
-      })
-      .then((data) => {
-        setMenuData(data.menu || {});
+    api
+      .getMegaMenu()
+      .then((data: any) => {
+        setMenuData((data && (data.menu || data)) || {});
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setMenuData({});
         setError("Failed to load menu");
         setLoading(false);

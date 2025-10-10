@@ -10,6 +10,7 @@ import ProductOptions from "@/components/product/ProductOptions";
 import ProductSpecs from "@/components/product/ProductSpecs";
 import ProductDescription from "@/components/product/ProductDescription";
 import RelatedProducts from "@/components/product/RelatedProducts";
+import { ReviewsSection } from "@/components/ReviewsSection";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -150,7 +151,7 @@ const ProductPage = () => {
           </TabsContent>
           
           <TabsContent value="reviews">
-            <p className="text-muted-foreground">Reviews content coming soon...</p>
+            <ReviewsSection />
           </TabsContent>
           
           <TabsContent value="questions">
@@ -160,6 +161,10 @@ const ProductPage = () => {
 
         {/* Related Products */}
         <RelatedProducts />
+      </div>
+      {/* Product Reviews Section */}
+      <div className="mt-12">
+        <ReviewsSection />
       </div>
     </div>
   );

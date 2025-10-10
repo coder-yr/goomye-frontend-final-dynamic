@@ -6,10 +6,22 @@ import { getCards } from "@/lib/account";
 
 const MyCards = () => {
   const [cards, setCards] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
-    getCards().then(data => setCards(data.cards)).catch(console.error);
+    getCards()
+      .then(data => {
+        setCards(data.cards || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError("Failed to load cards");
+        setLoading(false);
+      });
   }, []);
-  if (!cards.length) return null;
+  if (loading) return <div>Loading cards...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!cards.length) return <div>No cards found.</div>;
   const favorite = cards.find(card => card.isDefault) || cards[0];
   return (
     <div className="bg-card rounded-lg border border-border p-6 space-y-6">

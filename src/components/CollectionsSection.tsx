@@ -1,36 +1,31 @@
 import { Card } from "@/components/ui/card";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
 const CollectionsSection = () => {
-  const collections = [
-    {
-      id: 1,
-      brand: "cromā",
-      subtitle: "COLLECTIONS",
-      description: "In-House Exclusives",
-      title: "Air Conditioners",
-      price: "24,490",
-      note: "*Inclusive of all Offers",
-      bgClass: "bg-gradient-to-br from-sky-400 via-blue-500 to-blue-600",
-      image: "/placeholder.svg",
-      alt: "Air Conditioner with remote control"
-    },
-    {
-      id: 2,
-      brand: "cromā",
-      title: "Bestselling TVs",
-      price: "5,590",
-      note: "*Extra Exchange Benefits | Easy EMI",
-      bgClass: "bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500",
-      image: "/placeholder.svg",
-      alt: "Family watching TV in living room"
-    }
-  ];
+  const [collections, setCollections] = useState<any[]>([]);
+
+  useEffect(() => {
+    api.getCollections()
+      .then((res) => {
+        const data = res && (res.collections ?? res);
+        if (Array.isArray(data)) {
+          setCollections(data);
+        }
+      })
+      .catch(() => {
+        // keep empty state
+      });
+  }, []);
 
   return (
     <section className="w-full py-8 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {collections.map((collection) => (
+          {collections.length === 0 ? (
+            <div className="col-span-2 text-center text-muted-foreground py-8">No collections available.</div>
+          ) : (
+          collections.map((collection) => (
             <Card 
               key={collection.id}
               className={`overflow-hidden border-0 ${collection.bgClass} text-white`}
@@ -62,7 +57,8 @@ const CollectionsSection = () => {
                 </div>
               </div>
             </Card>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </section>

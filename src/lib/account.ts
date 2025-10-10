@@ -6,38 +6,27 @@ export async function getAccountStats() {
   return res.json();
 }
 
+import { apiFetch } from "./api";
+
 export async function getActiveOrders() {
-  const res = await fetch(`${BASE}/account/orders`);
-  if (!res.ok) throw new Error("Failed to fetch orders");
-  return res.json();
+  return apiFetch(`${BASE}/orders`);
 }
 
 export async function getAddresses() {
-  const res = await fetch(`${BASE}/account/addresses`);
-  if (!res.ok) throw new Error("Failed to fetch addresses");
-  return res.json();
+  return apiFetch(`${BASE}/account/addresses`);
 }
 
 export async function getCards() {
-  const res = await fetch(`${BASE}/account/cards`);
-  if (!res.ok) throw new Error("Failed to fetch cards");
-  return res.json();
+  return apiFetch(`${BASE}/account/cards`);
 }
 
 export async function getProfile() {
-  const res = await fetch(`${BASE}/account/profile`);
-  if (!res.ok) throw new Error("Failed to fetch profile");
-  return res.json();
+  return apiFetch(`${BASE}/account/profile`);
 }
 
 export async function updateProfile(data: any) {
-  const res = await fetch(`${BASE}/account/profile`, {
+  return apiFetch(`${BASE}/account/profile`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("Failed to update profile");
-  return res.json();
 }

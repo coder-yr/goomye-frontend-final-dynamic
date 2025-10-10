@@ -6,10 +6,22 @@ import { getAddresses } from "@/lib/account";
 
 const MyAddresses = () => {
   const [addresses, setAddresses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
-    getAddresses().then(data => setAddresses(data.addresses)).catch(console.error);
+    getAddresses()
+      .then(data => {
+        setAddresses(data.addresses || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError("Failed to load addresses");
+        setLoading(false);
+      });
   }, []);
-  if (!addresses.length) return null;
+  if (loading) return <div>Loading addresses...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!addresses.length) return <div>No addresses found.</div>;
   const preferred = addresses[0];
   return (
     <div className="bg-card rounded-lg border border-border p-6 space-y-6">

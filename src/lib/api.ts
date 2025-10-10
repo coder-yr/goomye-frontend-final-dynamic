@@ -1,45 +1,59 @@
-export async function getProduct(id: string) {
-  return safeJson(await fetch(`${BASE}/products/${id}`));
-}
+
 export const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8001/api";
 
-async function safeJson(res: Response) {
+export async function apiFetch(url: string, options: RequestInit = {}) {
+  const token = localStorage.getItem('token');
+  options.headers = {
+    ...(options.headers || {}),
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+  const res = await fetch(url, options);
   if (!res.ok) {
     throw new Error(`API error ${res.status}`);
   }
   return res.json();
 }
 
+export async function getProduct(id: string) {
+  return apiFetch(`${BASE}/products/${id}`);
+}
+
+
 export async function getMegaMenu() {
-  return safeJson(await fetch(`${BASE}/mega-menu`));
+  return apiFetch(`${BASE}/mega-menu`);
 }
 
 export async function getCategories() {
-  return safeJson(await fetch(`${BASE}/categories`));
+  return apiFetch(`${BASE}/categories`);
 }
 
 export async function getCollections() {
-  return safeJson(await fetch(`${BASE}/collections`));
+  return apiFetch(`${BASE}/collections`);
 }
 
 export async function getCarousel() {
-  return safeJson(await fetch(`${BASE}/carousel`));
+  return apiFetch(`${BASE}/carousel`);
 }
 
 export async function getBanners() {
-  return safeJson(await fetch(`${BASE}/banners`));
+  return apiFetch(`${BASE}/banners`);
 }
 
 export async function getUnboxed() {
-  return safeJson(await fetch(`${BASE}/unboxed`));
+  return apiFetch(`${BASE}/unboxed`);
 }
 
 export async function getDeals() {
-  return safeJson(await fetch(`${BASE}/deals`));
+  return apiFetch(`${BASE}/deals`);
 }
 
 export async function getProducts(query = "") {
-  return safeJson(await fetch(`${BASE}/products${query ? `?${query}` : ""}`));
+  return apiFetch(`${BASE}/products${query ? `?${query}` : ""}`);
+}
+
+export async function getContent(section: string) {
+  return apiFetch(`${BASE}/content/${section}`);
 }
 
 export default {
@@ -52,4 +66,5 @@ export default {
   getDeals,
   getProducts,
   getProduct,
+  getContent,
 };

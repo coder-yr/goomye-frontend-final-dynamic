@@ -1,41 +1,18 @@
 import { Card } from "@/components/ui/card";
+import React, { useEffect, useState } from "react";
+import api from "@/lib/api";
 
 const BrandedProducts = () => {
-  const products = [
-    {
-      id: 1,
-      brand: "LG",
-      logo: "LG Life's Good",
-      title: "Soundbars",
-      price: "6,490",
-      image: "/soundbar.jpg",
-      alt: "LG Soundbar"
-    },
-    {
-      id: 2,
-      brand: "PHILIPS Crompton",
-      title: "Irons & Garment Steamers",
-      price: "499",
-      image: "/iron.jpg",
-      alt: "Philips Garment Steamer"
-    },
-    {
-      id: 3,
-      title: "Android Tablets",
-      price: "11,749",
-      image: "/Tab.jpg",
-      alt: "Android Tablet"
-    },
-    {
-      id: 4,
-      brand: "SAMSUNG",
-      title: "Galaxy Fit3",
-      subtitle: "Smartwatches",
-      price: "2,799",
-      image: "/watch.jpg",
-      alt: "Samsung Galaxy Fit3 Smartwatch"
-    }
-  ];
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    api.getContent("branded")
+      .then((res) => {
+        const items = res && (res.items ?? []);
+        if (Array.isArray(items)) setProducts(items);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="w-full py-16 bg-background">

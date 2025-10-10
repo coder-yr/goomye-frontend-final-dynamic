@@ -57,16 +57,19 @@ export default function SignUpForm() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:8001/api/signup", {
+      // Use dynamic API base and correct endpoint
+      const { BASE } = await import("@/lib/api");
+      const res = await fetch(`${BASE}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, phone, password }),
       });
       const data = await res.json();
-      if (res.ok) {
-        setMessage("Signup successful!");
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/account";
       } else {
-        setMessage(data.error || "Signup failed");
+        setMessage(data.message || "Signup failed");
       }
     } catch (err) {
       setMessage("Network error");
