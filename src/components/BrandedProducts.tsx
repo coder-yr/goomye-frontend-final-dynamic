@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getContent } from "@/lib/api";
 
 const BrandedProducts = () => {
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    api.getContent("branded")
+  getContent("branded")
       .then((res) => {
         const items = res && (res.items ?? []);
         if (Array.isArray(items)) setProducts(items);

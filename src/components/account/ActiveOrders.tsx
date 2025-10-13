@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, ChevronDown, Truck, Package, CheckCircle, Info } from "lucide-react";
@@ -8,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getActiveOrders } from "@/lib/account";
+import { getOrders } from "@/lib/account";
 
 const statusConfig = {
   transit: {
@@ -32,8 +33,9 @@ const ActiveOrders = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
-    getActiveOrders()
+    getOrders()
       .then(data => {
         setOrders(data.orders || []);
         setLoading(false);
@@ -89,7 +91,8 @@ const ActiveOrders = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem>View details</DropdownMenuItem>
-                  <DropdownMenuItem>Track order</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate(`/order-track/${order.id}`)}>Track order</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate(`/return?orderId=${order.id}`)}>Return</DropdownMenuItem>
                   <DropdownMenuItem>Contact support</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -97,7 +100,7 @@ const ActiveOrders = () => {
           );
         })}
       </div>
-      <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+      <Button className="bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => navigate("/all-orders") }>
         <Eye className="h-4 w-4 mr-2" />
         See all orders
       </Button>

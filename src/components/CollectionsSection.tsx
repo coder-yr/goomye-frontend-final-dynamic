@@ -1,12 +1,12 @@
 import { Card } from "@/components/ui/card";
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getCollections } from "@/lib/api";
 
 const CollectionsSection = () => {
   const [collections, setCollections] = useState<any[]>([]);
 
   useEffect(() => {
-    api.getCollections()
+  getCollections()
       .then((res) => {
         const data = res && (res.collections ?? res);
         if (Array.isArray(data)) {

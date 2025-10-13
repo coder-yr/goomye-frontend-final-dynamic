@@ -18,22 +18,24 @@ interface ReviewCardProps {
 }
 
 export const ReviewCard = ({ review }: ReviewCardProps) => {
+  // Fallbacks for missing user/customer
+  const user = review.user || { name: "Anonymous", avatarUrl: undefined };
   return (
     <div className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
       <div className="flex items-center gap-3">
-        {review.user.avatarUrl ? (
+        {user.avatarUrl ? (
           <img
-            src={review.user.avatarUrl}
-            alt={review.user.name}
+            src={user.avatarUrl}
+            alt={user.name}
             className="w-8 h-8 rounded-full object-cover"
           />
         ) : (
           <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">
-            {review.user.name[0]}
+            {user.name[0]}
           </div>
         )}
         <div>
-          <div className="font-medium text-sm">{review.user.name}</div>
+          <div className="font-medium text-sm">{user.name}</div>
           <div className="flex items-center gap-1 text-xs text-gray-500">
             <StarRating rating={review.rating} size={12} />
             <span className="ml-1">{review.rating}</span>

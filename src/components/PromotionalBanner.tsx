@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getBanners } from "@/lib/api";
 
 const PromotionalBanner: React.FC = () => {
   const [banner, setBanner] = useState<any>({
@@ -12,7 +12,7 @@ const PromotionalBanner: React.FC = () => {
   });
 
   useEffect(() => {
-    api.getBanners()
+  getBanners()
       .then((res) => {
         if (res && res.banners && res.banners.length) {
           const b = res.banners[0];
@@ -40,7 +40,17 @@ const PromotionalBanner: React.FC = () => {
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8">Buy now</Button>
             </div>
             <div className="hidden md:block h-full">
-              <img src={banner.image} alt={banner.title} className="w-full h-full object-cover" />
+              <img 
+                src={banner.image} 
+                alt={banner.title} 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== '/placeholder.svg') {
+                    target.src = '/placeholder.svg';
+                  }
+                }}
+              />
             </div>
           </div>
         </div>

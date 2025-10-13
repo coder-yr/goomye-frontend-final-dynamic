@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getCategories } from "@/lib/api";
 import {
   Monitor,
   ShoppingBag,
@@ -24,7 +24,7 @@ import {
 const CategoriesSection = () => {
   const [categories, setCategories] = useState<any[]>([]);
   useEffect(() => {
-    api.getCategories()
+  getCategories()
       .then((res) => {
         console.log('Categories API response:', res);
         // Try to handle both array and object with categories property

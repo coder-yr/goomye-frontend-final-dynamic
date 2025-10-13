@@ -4,7 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
-import api from "@/lib/api";
+import { getProducts } from "@/lib/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +24,7 @@ const Products = () => {
   }, [sortKey]);
 
   useEffect(() => {
-    api.getProducts(query)
+  getProducts(query)
       .then((res) => {
         const list = res && (res.products ?? res);
         if (Array.isArray(list)) setProducts(list);

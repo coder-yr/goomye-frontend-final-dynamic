@@ -11,11 +11,11 @@ interface SidebarProps {
 
 const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
   const menuItems = [
-    { id: "profile", label: "My Profile", icon: UserPlus },
-    { id: "orders", label: "My orders", icon: Package },
-    { id: "addresses", label: "Delivery addresses", icon: Home },
-    { id: "favorites", label: "Favourite items", icon: Heart },
-    { id: "wishlist", label: "Wishlist", icon: Heart },
+    { id: "profile", label: "My Profile", icon: UserPlus, route: "/account" },
+    { id: "orders", label: "My orders", icon: Package, route: "/orders" },
+    { id: "addresses", label: "Delivery addresses", icon: Home, route: "/addresses" },
+    { id: "favorites", label: "Favourite items", icon: Heart, route: "/favorites" },
+    { id: "wishlist", label: "Wishlist", icon: Heart, route: "/wishlist" },
   ];
 
   return (
@@ -38,7 +38,10 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
           return (
             <button
               key={item.id}
-              onClick={() => onTabChange(item.id)}
+              onClick={() => {
+                onTabChange(item.id);
+                window.location.href = item.route;
+              }}
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
                 isActive 

@@ -1,19 +1,36 @@
 // Add wishlist API helpers
 import { BASE, apiFetch } from "./api";
+import { ROUTES } from "./apiRoutes";
 
 export async function getWishlist() {
-	return apiFetch(`${BASE}/user/wishlist`);
+	try {
+		return apiFetch(`${BASE}${ROUTES.USER.WISHLIST}`);
+	} catch (error) {
+		console.error("Error fetching wishlist:", error);
+		throw error;
+	}
 }
 
 export async function addToWishlist(item: { id: string | number; name: string; image?: string; price?: number }) {
-	return apiFetch(`${BASE}/user/wishlist`, {
-		method: "POST",
-		body: JSON.stringify(item),
-	});
+	try {
+		return apiFetch(`${BASE}${ROUTES.USER.WISHLIST}`, {
+			method: "POST",
+			body: JSON.stringify(item),
+		});
+	} catch (error) {
+		console.error("Error adding item to wishlist:", error);
+		throw error;
+	}
 }
 
 export async function removeFromWishlist(id: string | number) {
-	return apiFetch(`${BASE}/user/wishlist/${id}`, {
-		method: "DELETE",
-	});
+	try {
+		return apiFetch(`${BASE}${ROUTES.USER.WISHLIST_ITEM(id)}`, {
+			method: "DELETE",
+		});
+	} catch (error) {
+		console.error(`Error removing item ${id} from wishlist:`, error);
+		throw error;
+	}
 }
+

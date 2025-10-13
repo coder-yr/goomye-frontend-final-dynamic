@@ -5,14 +5,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import logo from "@/assets/goomye-logo.png";
 import React, { useState } from "react";
+import CartDrawer from "./CartDrawer";
 import MegaMenu from "./MegaMenu";
+import { useCart } from "@/context/CartContext";
+import { useNavigate } from "react-router-dom";
 // ...existing code...
 
 const Navbar = () => {
   const [showMegaMenu, setShowMegaMenu] = useState(false);
-  // ...existing code...
+  const [cartOpen, setCartOpen] = useState(false);
+  const { items } = useCart();
+  const navigate = useNavigate();
+  const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   return (
-    <header className="w-full border-b bg-background">
+    <>
+      <header className="w-full border-b bg-background">
       {/* Top Bar */}
       <div className="border-b py-2">
         <div className="container mx-auto flex items-center justify-between px-4">
@@ -75,8 +82,21 @@ const Navbar = () => {
                   0
                 </Badge>
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative"
+                onClick={() => setCartOpen(true)}
+              >
                 <ShoppingCart className="h-6 w-6 text-primary" />
+                {cartItemCount > 0 && (
+                  <Badge 
+                    variant="default" 
+                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary"
+                  >
+                    {cartItemCount}
+                  </Badge>
+                )}
               </Button>
             </div>
           </div>
@@ -115,7 +135,7 @@ const Navbar = () => {
               </a>
             </nav>
 
-            <Button variant="ghost" className="gap-2">
+            <Button variant="ghost" className="gap-2" onClick={() => navigate("/account") }>
               <Avatar className="h-8 w-8">
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>MA</AvatarFallback>
@@ -125,7 +145,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </header>
+      </header>
+      <CartDrawer open={cartOpen} onOpenChange={setCartOpen} cartItems={items} />
+    </>
   );
 };
 

@@ -1,13 +1,14 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import ProductCard from "./ProductCard";
+import { getSafeImageUrl } from "@/lib/imageUtils";
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getDeals } from "@/lib/api";
 
 const SummerDeals = () => {
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    api.getDeals()
+  getDeals()
       .then((res) => {
         const data = res && (res.deals ?? res);
         if (Array.isArray(data)) setProducts(data);
@@ -30,7 +31,10 @@ const SummerDeals = () => {
             <CarouselContent className="-ml-4">
               {products.map((product, idx) => (
                 <CarouselItem key={product.id ?? idx} className="pl-4 md:basis-1/2 lg:basis-1/4">
-                  <ProductCard {...product} />
+                  <ProductCard
+                    {...product}
+                    image={getSafeImageUrl(product.image)}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>

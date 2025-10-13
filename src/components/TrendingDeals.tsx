@@ -5,7 +5,7 @@ import product1 from "@/assets/product-1.jpg";
 import product2 from "@/assets/product-2.jpg";
 import product3 from "@/assets/product-3.jpg";
 import product4 from "@/assets/product-4.jpg";
-import api from "@/lib/api";
+import { getDeals } from "@/lib/api";
 
 const staticProducts = [
   {
@@ -61,7 +61,7 @@ const TrendingDeals = () => {
   useEffect(() => {
     let mounted = true;
 
-    api.getDeals()
+  getDeals()
       .then((res) => {
         // Expecting res.deals or an array
         const data = res && (res.deals ?? res);

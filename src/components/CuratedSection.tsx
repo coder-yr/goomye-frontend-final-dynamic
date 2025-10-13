@@ -1,6 +1,6 @@
 import { Package, Truck, Tv, Tag, Percent, Crown } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
-import api from "@/lib/api";
+import { getContent } from "@/lib/api";
 
 const CuratedSection = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -15,7 +15,7 @@ const CuratedSection = () => {
   }), []);
 
   useEffect(() => {
-    api.getContent("curated")
+  getContent("curated")
       .then((res) => {
         const data = res && (res.items ?? []);
         if (Array.isArray(data)) setItems(data);
@@ -36,7 +36,11 @@ const CuratedSection = () => {
                 className="flex flex-col items-center justify-center w-20 h-20 bg-gray-900 hover:bg-gray-800 rounded-2xl transition-colors duration-300"
                 aria-label={item.label}
               >
-                <Icon className="h-8 w-8 text-white" />
+                {item.image ? (
+                  <img src={item.image} alt={item.label || item.alt || "Curated item"} className="h-8 w-8 object-contain" />
+                ) : (
+                  <Icon className="h-8 w-8 text-white" />
+                )}
               </button>
             );
           })}

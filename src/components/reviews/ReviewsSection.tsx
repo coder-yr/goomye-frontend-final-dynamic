@@ -5,11 +5,6 @@ import { ReviewCard } from "./ReviewCard";
 import { AddReviewForm } from "./AddReviewForm";
 import { Button } from "@/components/ui/button";
 
-const mockReviews = [
-  { id: "1", author: "Micheal Gough", date: "November 18 2023 at 15:35", rating: 5, content: "My old iMAC was from 2013. This replacement was well needed. Very fast, and the colour matches my office set up perfectly. The display is out of this world and I'm very happy with this purchase.", verified: true, helpful: { yes: 3, no: 0 } },
-  { id: "2", author: "Jese Leos", date: "November 18 2023 at 15:35", rating: 5, content: "It's fancy, amazing keyboard, matching accessories. Super fast, batteries last more than usual, everything runs perfect in this computer. Highly recommend!", verified: true, images: ["/placeholder.svg", "/placeholder.svg"], helpful: { yes: 1, no: 0 } },
-  { id: "3", author: "Bonnie Green", date: "November 15 2023 at 10:20", rating: 5, content: "My old iMAC was from 2013. This replacement was well needed. Very fast, and the colour matches my office set up perfectly. The display is out of this world and I'm very happy with this purchase.", verified: true, helpful: { yes: 0, no: 0 } },
-];
 
 const reviewBreakdown = [
   { stars: 5, count: 239, percentage: 70 },
@@ -63,25 +58,16 @@ export const ReviewsSection = () => {
         </div>
       )}
 
+      {/* Replace with dynamic reviews from backend */}
       <div className="space-y-6">
-        {mockReviews.slice(0, visibleReviews).map((review) => (
+        {/* Example: reviews prop or context */}
+        {/* {reviews.slice(0, visibleReviews).map((review) => (
           <ReviewCard key={review.id} review={review} />
-        ))}
+        ))} */}
       </div>
-
-      {visibleReviews < mockReviews.length && (
-        <div className="text-center pt-6">
-          <Button
-            variant="outline"
-            onClick={() => setVisibleReviews(prev => prev + 5)}
-            className="rounded-full px-8"
-          >
-            View more reviews
-          </Button>
-        </div>
-      )}
     </div>
   );
 };
+
 
 

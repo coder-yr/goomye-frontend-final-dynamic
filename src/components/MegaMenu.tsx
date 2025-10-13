@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
-import api from "@/lib/api";
+import { getMegaMenu } from "@/lib/api";
 
 const MegaMenu: React.FC = () => {
   const [activeMain, setActiveMain] = useState<string | null>(null);
@@ -12,8 +12,7 @@ const MegaMenu: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api
-      .getMegaMenu()
+    getMegaMenu()
       .then((data: any) => {
         setMenuData((data && (data.menu || data)) || {});
         setLoading(false);

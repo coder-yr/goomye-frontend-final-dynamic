@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import unboxedImage from "@/assets/apple-watch-unboxed.jpg";
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getUnboxed } from "@/lib/api";
 
 const UnboxedSection: React.FC = () => {
   const [articles, setArticles] = useState([
@@ -18,7 +18,7 @@ const UnboxedSection: React.FC = () => {
   ]);
 
   useEffect(() => {
-    api.getUnboxed()
+  getUnboxed()
       .then((res) => {
         if (res && res.unboxed && res.unboxed.length) {
           setArticles(res.unboxed.map((a: any, idx: number) => ({ id: a.id ?? idx, badge: a.badge, subtitle: a.subtitle, title: a.title, description: a.description, image: a.image, alt: a.alt })));

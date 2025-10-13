@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getContent } from "@/lib/api";
 
 const GiftBanners = () => {
   const [image, setImage] = useState<string | null>(null);
   const [alt, setAlt] = useState<string>("Gift banner");
 
   useEffect(() => {
-    api.getContent("gifts")
+  getContent("gifts")
       .then((res) => {
         const items = res && (res.items ?? []);
         if (Array.isArray(items) && items[0]) {

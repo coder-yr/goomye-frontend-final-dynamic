@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BASE } from "@/lib/api";
+import { ROUTES } from "@/lib/apiRoutes";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -58,8 +60,7 @@ export default function SignUpForm() {
     }
     try {
       // Use dynamic API base and correct endpoint
-      const { BASE } = await import("@/lib/api");
-      const res = await fetch(`${BASE}/auth/register`, {
+      const res = await fetch(`${BASE}${ROUTES.AUTH.SIGNUP}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, phone, password }),
@@ -69,10 +70,13 @@ export default function SignUpForm() {
         localStorage.setItem("token", data.token);
         window.location.href = "/account";
       } else {
+        console.error("Signup API returned non-token response:", data);
         setMessage(data.message || "Signup failed");
       }
     } catch (err) {
-      setMessage("Network error");
+      console.error("Signup network error:", err);
+      const msg = err instanceof Error ? err.message : String(err);
+      setMessage(msg || "Network error");
     }
   }
 

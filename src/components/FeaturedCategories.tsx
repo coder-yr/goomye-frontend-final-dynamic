@@ -9,13 +9,13 @@ import console from "@/assets/console.jpg";
 import smartwatch from "@/assets/smartwatch.jpg";
 import tabletGuide from "@/assets/tablet-guide.jpg";
 import React, { useEffect, useState } from "react";
-import api from "@/lib/api";
+import { getCollections } from "@/lib/api";
 
 const FeaturedCategories: React.FC = () => {
   const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
-    api.getCollections()
+  getCollections()
       .then((res) => {
         if (res && res.collections && res.collections.length) {
           setCategories(

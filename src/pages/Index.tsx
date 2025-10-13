@@ -12,16 +12,22 @@ import CuratedSection from "@/components/CuratedSection";
 import GiftBanners from "@/components/GiftBanners";
 import UnboxedSection from "@/components/UnboxedSection";
 import AppDownloadSection from "@/components/AppDownloadSection";
+import FeaturedProducts from "@/components/FeaturedProducts";
+import Testimonials from "@/components/Testimonials";
+import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main>
+      <main className="overflow-x-hidden">
         <HeroCarousel />
         <CategoriesSection />
         <TrendingDeals />
+        <FeaturedProducts />
+        <Testimonials />
+        <CallToAction />
         <PromotionalBanner />
         <FeaturedCategories />
         <PromotionalCards />

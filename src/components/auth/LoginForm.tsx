@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 import { Eye, EyeOff } from "lucide-react";
 import { BASE } from "@/lib/api";
+import { ROUTES } from "@/lib/apiRoutes";
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +17,7 @@ export const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${BASE}/auth/login`, {
+      const res = await fetch(`${BASE}${ROUTES.AUTH.LOGIN}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -152,7 +155,7 @@ export const LoginForm = () => {
           <span className="text-muted-foreground">New to GoomYe? </span>
           <button
             type="button"
-            onClick={() => console.log("Navigate to sign up")}
+            onClick={() => navigate("/signup")}
             className="font-medium text-primary hover:underline"
           >
             Sign up →
