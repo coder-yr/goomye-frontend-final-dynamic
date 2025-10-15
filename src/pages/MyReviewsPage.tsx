@@ -119,8 +119,17 @@ export default function MyReviewsPage() {
           productName={editDialog.review?.title || ""}
           initialRating={editDialog.review?.rating || 0}
           initialReview={editDialog.review?.comment || ""}
-          onSave={(rating, reviewText) => {
-            // TODO: Implement save logic (API call)
+          onSave={async (rating, reviewText) => {
+            if (!editDialog.review) return;
+            try {
+              const updated = await apiFetch(`/api/reviews/${editDialog.review.id}`, {
+                method: "PUT",
+                body: JSON.stringify({ rating, comment: reviewText }),
+              });
+              setReviews(prev => prev.map(r => r.id === updated.review.id ? updated.review : r));
+            } catch (err) {
+              // Optionally show error
+            }
             setEditDialog({ open: false, review: null });
           }}
         />
@@ -130,8 +139,16 @@ export default function MyReviewsPage() {
           open={deleteDialog.open}
           onOpenChange={(open) => setDeleteDialog({ open, review: deleteDialog.review })}
           productName={deleteDialog.review?.title || ""}
-          onConfirm={() => {
-            // TODO: Implement delete logic (API call)
+          onConfirm={async () => {
+            if (!deleteDialog.review) return;
+            try {
+              await apiFetch(`/api/reviews/${deleteDialog.review.id}`, {
+                method: "DELETE"
+              });
+              setReviews(prev => prev.filter(r => r.id !== deleteDialog.review.id));
+            } catch (err) {
+              // Optionally show error
+            }
             setDeleteDialog({ open: false, review: null });
           }}
         />

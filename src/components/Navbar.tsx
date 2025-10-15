@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import logo from "@/assets/goomye-logo.png";
 import React, { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 import CartDrawer from "./CartDrawer";
 import MegaMenu from "./MegaMenu";
 import { useCart } from "@/context/CartContext";
@@ -17,16 +18,20 @@ const Navbar = () => {
   const { items } = useCart();
   const navigate = useNavigate();
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
+  const { isLoggedIn } = useAuth();
   return (
     <>
       <header className="w-full border-b bg-background">
       {/* Top Bar */}
       <div className="border-b py-2">
         <div className="container mx-auto flex items-center justify-between px-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <button
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            onClick={() => navigate('/orders')}
+          >
             <BookOpen className="h-4 w-4" />
             <span>ORDER TRACKING</span>
-          </div>
+          </button>
           <div className="flex items-center gap-6 text-sm">
             <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
               <Headphones className="h-4 w-4" />
@@ -135,13 +140,19 @@ const Navbar = () => {
               </a>
             </nav>
 
-            <Button variant="ghost" className="gap-2" onClick={() => navigate("/account") }>
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>MA</AvatarFallback>
-              </Avatar>
-              <span className="text-sm font-medium">My account</span>
-            </Button>
+            {isLoggedIn ? (
+              <Button variant="ghost" className="gap-2" onClick={() => navigate("/account") }>
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>MA</AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium">My account</span>
+              </Button>
+            ) : (
+              <Button variant="outline" className="gap-2" onClick={() => navigate("/login") }>
+                <span className="text-sm font-medium">Sign In</span>
+              </Button>
+            )}
           </div>
         </div>
       </div>

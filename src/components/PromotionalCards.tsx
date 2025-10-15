@@ -23,16 +23,25 @@ const PromotionalCards: React.FC = () => {
             "Xbox Series S 1TB SSD": "/xbox-series-s.jpg",
             "Apple iPhone 15 Pro Max": "/iphone-15-pro-max.png"
           };
-          setPromotions(res.deals.map((d: any, idx: number) => ({
-            id: d.id ?? idx,
-            title: d.title,
-              image: getSafeImageUrl(d.image || imageMap[d.title] || "/placeholder.svg"),
-            price: d.price,
-            subtitle: d.subtitle,
-            offer: d.discount,
-            isPercentage: !!d.discount,
-            alt: d.alt
-          })));
+          const excludedTitles = [
+            "Sample Computers Product 1",
+            "Sample Computers Product 2",
+            "Sample Home Audio Product 2"
+          ];
+          setPromotions(
+            res.deals
+              .filter((d: any) => !excludedTitles.includes(d.title))
+              .map((d: any, idx: number) => ({
+                id: d.id ?? idx,
+                title: d.title,
+                image: getSafeImageUrl(d.image || imageMap[d.title] || "/placeholder.svg"),
+                price: d.price,
+                subtitle: d.subtitle,
+                offer: d.discount,
+                isPercentage: !!d.discount,
+                alt: d.alt
+              }))
+          );
         }
       })
       .catch(() => {});

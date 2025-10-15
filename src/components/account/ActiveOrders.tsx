@@ -90,7 +90,7 @@ const ActiveOrders = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>View details</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate(`/orders/${order.id}`)}>View details</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate(`/order-track/${order.id}`)}>Track order</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate(`/return?orderId=${order.id}`)}>Return</DropdownMenuItem>
                   <DropdownMenuItem>Contact support</DropdownMenuItem>

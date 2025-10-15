@@ -12,6 +12,7 @@ import ProductDescription from "@/components/product/ProductDescription";
 import RelatedProducts from "@/components/product/RelatedProducts";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { useCart } from "@/context/CartContext";
+import { addToWishlist } from "@/lib/user";
 
 const ProductPage = () => {
   const { addItem } = useCart();
@@ -92,7 +93,16 @@ const ProductPage = () => {
                 <Button 
                   variant="outline" 
                   className="flex-1"
-                  onClick={() => setIsFavorite(!isFavorite)}
+                  onClick={async () => {
+                    setIsFavorite(!isFavorite);
+                    if (!product) return;
+                    await addToWishlist({
+                      id: product.id,
+                      name: product.name,
+                      image: product.images?.[0] || "",
+                      price: product.price
+                    });
+                  }}
                 >
                   <Heart className={`w-4 h-4 mr-2 ${isFavorite ? 'fill-current' : ''}`} />
                   Add to favorites

@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "@/context/CartContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Index from "./pages/Index";
@@ -24,44 +25,52 @@ import ReviewAndPay from "./pages/ReviewAndPay";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import OrderDetails from "./pages/OrderDetails";
 import RefundStatusPage from "./pages/refund-status/Index";
+import Refunds from "./pages/Refunds";
+import AllOrders from "./pages/AllOrders";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <CartProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="/order-track/:orderId" element={<OrderTrackPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/return" element={<ReturnForm />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/review-and-pay" element={<ReviewAndPay />} />
-            <Route path="/order-confirmation" element={<OrderConfirmation />} />
-            <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/account/reviews" element={<MyReviewsPage />} />
-            <Route path="/my-orders" element={<MyOrders />} />
-            <Route path="/orders" element={<MyOrders />} />
-            <Route path="/orders/:orderId" element={<OrderDetails />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/refund-status/:orderId" element={<RefundStatusPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </CartProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+
+                <Route path="/order-track/:orderId" element={<OrderTrackPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/return" element={<ReturnForm />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/products/:id" element={<ProductPage />} />
+                <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/review-and-pay" element={<ReviewAndPay />} />
+                <Route path="/order-confirmation" element={<OrderConfirmation />} />
+                <Route path="/signup" element={<SignUpForm />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/account/reviews" element={<MyReviewsPage />} />
+                <Route path="/my-orders" element={<MyOrders />} />
+                <Route path="/orders" element={<MyOrders />} />
+                <Route path="/orders/:orderId" element={<OrderDetails />} />
+                <Route path="/all-orders" element={<AllOrders />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/refund-status/:orderId" element={<RefundStatusPage />} />
+                <Route path="/refunds" element={<Refunds />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </CartProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

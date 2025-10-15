@@ -1,7 +1,7 @@
 // API route constants for consistent route management
 
 // Base API URL
-export const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8001/api";
+export const BASE_URL = "https://goomye-backend-1.onrender.com/api";
 
 // Product routes
 export const ROUTES = {

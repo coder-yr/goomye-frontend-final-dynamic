@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, X } from "lucide-react";
 import RefundTimeline from "@/components/RefundTimeline";
 import RefundDetails from "@/components/RefundDetails";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ const Index = () => {
   const [refund, setRefund] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [noFormError, setNoFormError] = useState(false);
 
   useEffect(() => {
     // Use correct API base URL for backend
@@ -25,15 +26,35 @@ const Index = () => {
         setRefund(data);
         setLoading(false);
       })
-      .catch(() => {
-        setError("Failed to load refund data");
+      .catch((err) => {
+        // Check if the error is because no return form was filled
+        if (err.message && err.message.includes("No return form found")) {
+          setNoFormError(true);
+        } else {
+          setError("Failed to load refund data");
+        }
         setLoading(false);
       });
   }, [orderId]);
 
-  if (loading) return <div>Loading refund status...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!refund) return <div>No refund data found.</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading refund status...</div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
+  if (noFormError) return (
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 max-w-md text-center">
+        <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+        <h2 className="text-xl font-semibold text-amber-800 mb-2">Return Form Required</h2>
+        <p className="text-amber-700 mb-4">You need to fill out a return form before you can view the refund status for this product.</p>
+        <Button 
+          onClick={() => navigate('/return-form')} 
+          className="bg-amber-600 hover:bg-amber-700 text-white"
+        >
+          Fill Return Form
+        </Button>
+      </div>
+    </div>
+  );
+  if (!refund) return <div className="min-h-screen flex items-center justify-center">No refund data found.</div>;
 
   return (
     <div className="min-h-screen bg-background">

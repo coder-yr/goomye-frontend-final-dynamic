@@ -6,6 +6,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useNavigate } from "react-router-dom";
 
 interface CartItem {
   id: number;
@@ -26,6 +27,7 @@ interface CartDrawerProps {
 
 const CartDrawer = ({ open, onOpenChange, cartItems }: CartDrawerProps) => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const navigate = useNavigate();
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -110,10 +112,10 @@ const CartDrawer = ({ open, onOpenChange, cartItems }: CartDrawerProps) => {
             Shipping, taxes and discounts are calculated at checkout.
           </p>
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" onClick={() => { onOpenChange(false); navigate("/cart"); }}>
               View cart ({cartItems.length})
             </Button>
-            <Button className="w-full bg-primary hover:bg-primary/90">
+            <Button className="w-full bg-primary hover:bg-primary/90" onClick={() => { onOpenChange(false); navigate("/checkout"); }}>
               Checkout
             </Button>
           </div>

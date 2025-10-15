@@ -13,6 +13,7 @@ interface RefundTimelineProps {
 }
 
 const RefundTimeline = ({ steps }: RefundTimelineProps) => {
+  if (!steps || !Array.isArray(steps)) return null;
   return (
     <div className="space-y-1">
       {steps.map((step, index) => (

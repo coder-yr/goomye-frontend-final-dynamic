@@ -26,10 +26,12 @@ import {
 } from "@/components/ui/select";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Search, Plus, MoreHorizontal, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { apiFetch } from "@/lib/api";
 
 export default function Refunds() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [dateRange, setDateRange] = useState("last7days");
@@ -65,6 +67,24 @@ export default function Refunds() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <span>Loading refunds...</span>
+      </div>
+    );
+  }
+  
+  // Show a message if no refunds are found because no return forms have been submitted
+  if (refunds.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-md text-center">
+          <h2 className="text-xl font-semibold text-blue-800 mb-2">No Refunds Found</h2>
+          <p className="text-blue-700 mb-4">You haven't submitted any return forms yet. Only products with filled return forms will appear here.</p>
+          <Button 
+            onClick={() => navigate('/return')} 
+            className="bg-primary hover:bg-primary/90 text-white"
+          >
+            Submit a Return
+          </Button>
+        </div>
       </div>
     );
   }

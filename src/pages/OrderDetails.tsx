@@ -423,7 +423,7 @@ const OrderDetails: React.FC = () => {
               <Download className="h-4 w-4 mr-2" />
               Download Invoice
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => navigate(`/order-track/${orderDetails.orderId}`)}>
               Track Package
             </Button>
             <Button variant="outline">

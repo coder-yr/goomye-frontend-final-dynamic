@@ -28,7 +28,7 @@ const Footer = () => {
           {/* Logo and Contact */}
           <div className="space-y-8">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
-              <span className="text-2xl font-bold">GOOMYE</span>
+              <img src="/logo.png" alt="GOOMYE Logo" />
             </div>
             <div className="space-y-6">
               <h3 className="text-xl font-bold">Contact Us</h3>

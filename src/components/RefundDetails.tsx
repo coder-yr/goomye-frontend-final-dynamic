@@ -13,6 +13,7 @@ interface RefundDetailsProps {
 }
 
 const RefundDetails = ({ details, amount, method }: RefundDetailsProps) => {
+  if (!details) return null;
   return (
     <div className="space-y-5">
       <Card className="p-6 border-border shadow-sm">
@@ -21,7 +22,7 @@ const RefundDetails = ({ details, amount, method }: RefundDetailsProps) => {
           <div>
             <h3 className="text-[13px] font-semibold text-foreground mb-1.5">Refund reason</h3>
             <p className="text-[13px] text-muted-foreground leading-relaxed">
-              {details.reason}
+              {details.reason || "No reason provided"}
             </p>
           </div>
           <div>
