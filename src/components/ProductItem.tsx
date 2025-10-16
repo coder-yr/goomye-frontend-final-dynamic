@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface ProductItemProps {
   name: string;
@@ -10,7 +11,8 @@ interface ProductItemProps {
   image: string;
 }
 
-const ProductItem = ({ name, price, salePrice, color, size, quantity, image }: ProductItemProps) => {
+const ProductItem = ({ name, price, salePrice, color, size, quantity, image, productId }: ProductItemProps & { productId?: number }) => {
+  const navigate = useNavigate();
   return (
     <div className="flex gap-4 p-4 border-b last:border-b-0">
       <div className="w-28 h-28 bg-muted rounded-lg overflow-hidden flex-shrink-0">
@@ -51,7 +53,7 @@ const ProductItem = ({ name, price, salePrice, color, size, quantity, image }: P
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">Buy it again</Button>
-          <Button variant="outline" size="sm">Write a product review</Button>
+          <Button variant="outline" size="sm" onClick={() => productId && navigate(`/products/${productId}`)}>Write a product review</Button>
         </div>
       </div>
     </div>

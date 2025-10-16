@@ -15,7 +15,7 @@ const HeroCarousel: React.FC = () => {
         if (res && res.carousel && res.carousel.length) {
           setSlides(res.carousel.map((s: any, idx: number) => ({ 
             id: s.id ?? idx, 
-            image: s.image ?? "/hero-1.jpg", 
+            image: "/banner.png", 
             alt: s.alt,
             title: s.title || "Discover the Latest Tech",
             subtitle: s.subtitle || "Exclusive deals on premium products",

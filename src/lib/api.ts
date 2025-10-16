@@ -1,4 +1,3 @@
-
 import { BASE_URL, ROUTES } from './apiRoutes';
 
 export const BASE = BASE_URL;
@@ -100,4 +99,12 @@ export async function addProductReview(productId: string, review: {
     console.error(`Error adding product review for ${productId}:`, error);
     throw error;
   }
+}
+
+export async function getProfile() {
+  return apiFetch(`${BASE}${ROUTES.USER.PROFILE}`);
+}
+
+export async function getStats() {
+  return apiFetch(`${BASE}/account/stats`);
 }

@@ -23,8 +23,10 @@ export const ReturnForm = () => {
 
     useEffect(() => {
         setLoading(true);
+        // Fetch all orders for the current user, flatten products
         fetchReturnProducts()
             .then((data) => {
+                // If backend returns all products ordered by current user, use directly
                 setProducts(data);
                 setLoading(false);
             })

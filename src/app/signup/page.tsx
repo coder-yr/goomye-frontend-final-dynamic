@@ -68,7 +68,7 @@ export default function SignUpForm() {
       const data = await res.json();
       if (data.token) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/account";
+  window.location.href = "/";
       } else {
         console.error("Signup API returned non-token response:", data);
         setMessage(data.message || "Signup failed");

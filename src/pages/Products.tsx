@@ -37,11 +37,11 @@ const Products = () => {
       <header className="border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <Home className="w-4 h-4" />
+            <Link to="/" className="hover:text-foreground transition-colors" aria-label="Go to homepage">
+              <Home className="w-4 h-4 cursor-pointer" />
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <span>Products</span>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-foreground font-medium">Electronics</span>
+            <span className="text-foreground font-medium ">Products</span>
           </div>
         </div>
       </header>

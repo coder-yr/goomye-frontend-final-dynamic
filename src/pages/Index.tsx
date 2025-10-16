@@ -38,7 +38,7 @@ const Index = () => {
         <FeaturedCategories />
         <PromotionalCards />
         <CollectionsSection />
-        <BrandedProducts />
+        {/* <BrandedProducts /> */}
         <SummerDeals />
         <CuratedSection />
         <GiftBanners />

@@ -10,7 +10,6 @@ import CartDrawer from "./CartDrawer";
 import MegaMenu from "./MegaMenu";
 import { useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom";
-// ...existing code...
 
 const Navbar = () => {
   const [showMegaMenu, setShowMegaMenu] = useState(false);
@@ -78,7 +77,7 @@ const Navbar = () => {
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative" onClick={() => navigate('/wishlist')}>
                 <Heart className="h-6 w-6 text-primary" />
                 <Badge 
                   variant="default" 

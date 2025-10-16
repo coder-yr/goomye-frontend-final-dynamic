@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Package, ChevronRight } from "lucide-react";
 import OrderHeader from "@/components/OrderHeader";
 import ShippingInfo from "@/components/ShippingInfo";
@@ -15,6 +15,7 @@ const Index = () => {
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!orderId) return;
@@ -74,7 +75,7 @@ const Index = () => {
             />
           </div>
           <div className="flex items-center justify-between py-6 border-t border-b">
-            <Button variant="link" className="px-0 text-foreground">
+            <Button variant="link" className="px-0 text-foreground" onClick={() => navigate("/return")}>
               Something wrong?{" "}
               <span className="underline ml-1">Exchange or return</span>
               <ChevronRight className="w-4 h-4 ml-1" />
@@ -101,8 +102,15 @@ const Index = () => {
               size={item.size || ""}
               quantity={item.quantity || 1}
               image={""}
+              productId={item.productId || item.id}
             />
           ))}
+          <div className="flex gap-2 mt-4">
+            <Button variant="outline">Buy it again</Button>
+            <Button variant="outline" onClick={() => navigate(`/products/${items[0]?.productId || items[0]?.id}`)}>
+              Write a product review
+            </Button>
+          </div>
         </div>
       </div>
     </div>

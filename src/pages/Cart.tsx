@@ -1,14 +1,27 @@
-
 import CartItem from "@/components/CartItem";
 import CheckoutOrderSummary from "@/components/CheckoutOrderSummary";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const Cart = () => {
   const { items, updateItem, removeItem, isLoading, error } = useCart();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
+          <p className="text-muted-foreground mb-6">Please log in to view your cart.</p>
+          <Button onClick={() => navigate("/login")}>Log In</Button>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading && items.length === 0) {
     return (

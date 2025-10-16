@@ -16,7 +16,7 @@ const PromotionalBanner: React.FC = () => {
       .then((res) => {
         if (res && res.banners && res.banners.length) {
           const b = res.banners[0];
-          setBanner({ brand: b.tag1 || 'cmf', subtitle: b.subHeading || 'by NOTHING', title: b.heading || 'CMF PHONE 2 PRO', price: b.price || '17,999', image: b.image || '/nothing-1.jpg' });
+          setBanner({ brand: b.tag1 || 'cmf', subtitle: b.subHeading || 'by NOTHING', title: b.heading || 'CMF PHONE 2 PRO', price: b.price || '17,999', image:'/nothing-1.jpg' });
         }
       })
       .catch(() => {});

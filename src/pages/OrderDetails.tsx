@@ -253,9 +253,10 @@ const OrderDetails: React.FC = () => {
                 {orderDetails.items.map((item, index) => (
                   <div key={index} className="flex items-center gap-4 p-4 border rounded-lg">
                     <img 
-                      src={item.image} 
+                      src={item.image || '/placeholder.svg'}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded"
+                      onError={e => { e.currentTarget.src = '/placeholder.svg'; }}
                     />
                     <div className="flex-1">
                       <h3 className="font-medium">{item.name}</h3>
